@@ -3,6 +3,17 @@ name = "kumulus-cli"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "kumulus"
+path = "src/main.rs"
+
+
 [dependencies]
 clap = { version = "4.5.27", features = ["derive"] }
+dirs = "6.0.0"
+reqwest = { version = "0.12.12", features = ["blocking", "json"] }
 serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.138"
+uuid = { version = "1.12.1", features = ["v4", "fast-rng", "macro-diagnostics",] }
+
+
