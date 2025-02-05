@@ -6,6 +6,8 @@ use std::process::Command;
 use std::thread;
 use std::time;
 
+use crate::core::constants::BASE_URL;
+
 #[derive(Serialize, Deserialize)]
 struct AuthResponse {
     key: Vec<String>,
@@ -29,9 +31,9 @@ pub fn login() {
         .build()
         .expect("Failed to create HTTP client");
 
-    let base_url = "https://test-kumulus-backend.deno.dev/auth"; // "http://localhost:8000/auth";
+    //let base_url = "https://test-kumulus-backend.deno.dev/auth"; // "http://localhost:8000/auth";
     let state = uuid::Uuid::new_v4().to_string();
-    let auth_url = format!("{}{}{}", base_url, "/cli-portal?state=", state);
+    let auth_url = format!("{}{}{}{}", BASE_URL, "auth", "/cli-portal?state=", state);
 
     println!("Opening browser for authentication: {}", auth_url);
 
@@ -49,7 +51,7 @@ pub fn login() {
     let start_time = time::Instant::now();
 
     while start_time.elapsed() < max_duration {
-        let check_url = format!("{}{}{}", base_url, "/cli-token?state=", state);
+        let check_url = format!("{}{}{}{}", BASE_URL, "/auth", "/cli-token?state=", state);
 
         match client.get(&check_url).send() {
             Ok(response) if response.status().is_success() => {
